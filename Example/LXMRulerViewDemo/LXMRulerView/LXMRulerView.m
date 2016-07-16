@@ -42,7 +42,7 @@
             endPoint = self.longLineDistance;
             
             UILabel *label = [[UILabel alloc] init];
-            label.text = [NSString stringWithFormat:@"%ld", self.minValue + i];
+            label.text = [NSString stringWithFormat:@"%@", @(self.minValue + i)];
             label.font = self.rulerFont;
             label.textColor = self.rulerLineColor;
             [label sizeToFit];

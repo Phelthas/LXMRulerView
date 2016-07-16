@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/Phelthas/LXMRulerView"
-  s.screenshots  = "https://github.com/Phelthas/LXMRulerView/blob/master/Screenshots/rulerView.gif"
 
   s.license      = "MIT"
 
