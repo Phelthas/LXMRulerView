@@ -30,6 +30,8 @@
     [self.oneRulerView setValueChangeCallback:^(CGFloat currentValue) {
         testLabel.text = [NSString stringWithFormat:@"ruler one :%.01f", currentValue];
     }];
+    self.oneRulerView.markViewSize = CGSizeMake(40, 30);
+
     [self.oneRulerView reloadData];
     [self.view addSubview:self.oneRulerView];
     
