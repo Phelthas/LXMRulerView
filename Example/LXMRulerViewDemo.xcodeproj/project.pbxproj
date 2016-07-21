@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43429F981D410B7900CE78F5 /* TextXibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43429F971D410B7900CE78F5 /* TextXibViewController.m */; };
 		43887B8A1D366CD00041ABF8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 43887B891D366CD00041ABF8 /* main.m */; };
 		43887B8D1D366CD00041ABF8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 43887B8C1D366CD00041ABF8 /* AppDelegate.m */; };
 		43887B901D366CD00041ABF8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43887B8F1D366CD00041ABF8 /* ViewController.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43429F961D410B7900CE78F5 /* TextXibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextXibViewController.h; sourceTree = "<group>"; };
+		43429F971D410B7900CE78F5 /* TextXibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextXibViewController.m; sourceTree = "<group>"; };
 		43887B851D366CD00041ABF8 /* LXMRulerViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LXMRulerViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43887B891D366CD00041ABF8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		43887B8B1D366CD00041ABF8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -66,6 +69,8 @@
 				43887B8C1D366CD00041ABF8 /* AppDelegate.m */,
 				43887B8E1D366CD00041ABF8 /* ViewController.h */,
 				43887B8F1D366CD00041ABF8 /* ViewController.m */,
+				43429F961D410B7900CE78F5 /* TextXibViewController.h */,
+				43429F971D410B7900CE78F5 /* TextXibViewController.m */,
 				43887B911D366CD00041ABF8 /* Main.storyboard */,
 				43887B941D366CD00041ABF8 /* Assets.xcassets */,
 				43887B961D366CD00041ABF8 /* LaunchScreen.storyboard */,
@@ -164,6 +169,7 @@
 			files = (
 				43887B901D366CD00041ABF8 /* ViewController.m in Sources */,
 				43887B8D1D366CD00041ABF8 /* AppDelegate.m in Sources */,
+				43429F981D410B7900CE78F5 /* TextXibViewController.m in Sources */,
 				43887B8A1D366CD00041ABF8 /* main.m in Sources */,
 				43887BA21D366E380041ABF8 /* LXMRulerView.m in Sources */,
 			);

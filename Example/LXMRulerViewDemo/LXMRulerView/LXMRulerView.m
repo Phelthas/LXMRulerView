@@ -64,8 +64,6 @@
     CGContextStrokePath(context);
 }
 
-
-
 @end
 
 
@@ -125,27 +123,53 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.rulerBackgroundColor = OJAColorFromHex(0xf9f9f9);
-        self.rulerLineColor = OJAColorFromHex(0xc7c7c7);
-        self.rulerFont = [UIFont systemFontOfSize:18];
-        self.rulerMargin = 15;
-        self.rulerSpacing = 10;
-        self.longLineDistance = 24;
-        self.shortLineDistance = 12;
-        self.minValue = 0;
-        self.maxValue = 100;
-        self.limitToInteger = YES;
-        
-        self.showMarkView = YES;
-        self.markViewColor = OJAColorFromHex(0xea5151);
-        self.markViewSize = CGSizeMake(16, 8);
-        self.currentValue = 0;
-        
-        self.backgroundColor = self.rulerBackgroundColor;
-        [self addSubview:self.scrollView];
-        [self reloadData];
+        [self setupDefault];
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    [self setupDefault];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    //使valueView的大小跟随self变化，因为其是scrollview的contentView，没法用autoLayout
+    CGRect frame = self.valueView.frame;
+    frame.size.height = CGRectGetHeight(self.bounds);
+    self.valueView.frame = frame;
+    
+    if (self.showMarkView == YES) {
+        self.scrollView.contentInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds) / 2 - self.rulerMargin, 0, CGRectGetWidth(self.bounds) / 2 - self.rulerMargin);
+    } else {
+        self.scrollView.contentInset = UIEdgeInsetsZero;
+    }
+}
+
+- (void)setupDefault {
+    self.rulerBackgroundColor = OJAColorFromHex(0xf9f9f9);
+    self.rulerLineColor = OJAColorFromHex(0xc7c7c7);
+    self.rulerFont = [UIFont systemFontOfSize:18];
+    self.rulerMargin = 15;
+    self.rulerSpacing = 10;
+    self.longLineDistance = 24;
+    self.shortLineDistance = 12;
+    self.minValue = 0;
+    self.maxValue = 100;
+    self.limitToInteger = YES;
+    
+    self.showMarkView = YES;
+    self.markViewColor = OJAColorFromHex(0xea5151);
+    self.markViewSize = CGSizeMake(16, 8);
+    self.currentValue = 0;
+    
+    self.backgroundColor = self.rulerBackgroundColor;
+    [self addSubview:self.scrollView];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    [self reloadData];
 }
 
 
@@ -181,7 +205,9 @@
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
     }
     return _scrollView;
 }
@@ -205,16 +231,12 @@
     self.backgroundColor = self.rulerBackgroundColor;
     
     CGFloat totalWidth = self.rulerSpacing * (self.maxValue - self.minValue) + self.rulerMargin * 2;
-    CGFloat height = CGRectGetHeight(self.bounds);
-    self.scrollView.contentSize = CGSizeMake(totalWidth, height);
-    if (self.showMarkView == YES) {
-        self.scrollView.contentInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds) / 2 - self.rulerMargin, 0, CGRectGetWidth(self.bounds) / 2 - self.rulerMargin);
-    } else {
-        self.scrollView.contentInset = UIEdgeInsetsZero;
-    }
+    CGFloat height = 0;//CGRectGetHeight(self.bounds);
+    self.scrollView.contentSize = CGSizeMake(totalWidth, 0);
     
     self.scrollView.delegate = self;
     LXMRulerValueView *valueView = [[LXMRulerValueView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, height)];
+    valueView.contentMode = UIViewContentModeRedraw;//使ValueView的bounds变化时，重新调用drawRect方法
     valueView.backgroundColor = self.rulerBackgroundColor;
     valueView.rulerLineColor = self.rulerLineColor;
     valueView.rulerFont = self.rulerFont;
@@ -226,11 +248,19 @@
     valueView.maxValue = self.maxValue;
     [self.scrollView addSubview:valueView];
     
+    self.valueView = valueView;
+    
     if (self.showMarkView) {
         self.markView = [[LXMRulerMarkView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.bounds) / 2 - self.markViewSize.width / 2, 0, self.markViewSize.width, self.markViewSize.height)];
+        self.markView.translatesAutoresizingMaskIntoConstraints = NO;
         self.markView.markColor = self.markViewColor;
         self.markView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.markView];
+        [self.markView addConstraint:[NSLayoutConstraint constraintWithItem:self.markView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.markViewSize.width]];
+        [self.markView addConstraint:[NSLayoutConstraint constraintWithItem:self.markView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.markViewSize.height]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.markView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.markView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+
     }
     
     [self updateCurrentValue:self.currentValue];
