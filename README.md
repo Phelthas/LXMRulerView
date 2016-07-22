@@ -7,6 +7,8 @@ Compatible with autoLayout and xib!
 it will look like:    
 ![image](https://github.com/Phelthas/LXMRulerView/blob/master/Screenshots/rulerView.gif)       
 
+[这里](http://www.cnblogs.com/Phelthas/p/5697166.html)有一篇总结    
+
 
 ## How to use   
 1, cocoaPods    
