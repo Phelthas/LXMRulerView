@@ -28,11 +28,11 @@
     [oneRulerView setValueChangeCallback:^(CGFloat currentValue) {
         testLabel.text = [NSString stringWithFormat:@"ruler one :%.01f", currentValue];
     }];
+    oneRulerView.accuracy = 3;
     [oneRulerView reloadData];
     [self.view addSubview:oneRulerView];
     
     [oneRulerView updateCurrentValue:30];
-    
     
     //普通尺子样式
     LXMRulerView *twoRulerView = [[LXMRulerView alloc] initWithFrame:CGRectMake(0, 200, CGRectGetWidth([UIScreen mainScreen].bounds), 60)];

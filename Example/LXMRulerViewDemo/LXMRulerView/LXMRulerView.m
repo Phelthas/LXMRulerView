@@ -25,6 +25,7 @@
 @property (nonatomic, assign) CGFloat shortLineDistance;
 @property (nonatomic, assign) NSInteger minValue;
 @property (nonatomic, assign) NSInteger maxValue;
+@property (nonatomic, assign) CGFloat accuracy;
 
 @end
 
@@ -34,15 +35,15 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.rulerLineColor set];
     CGFloat startPoint = self.rulerMargin;
-    for (int i = 0; i <= (self.maxValue - self.minValue); i++) {
+    for (int i = 0; i <= (self.maxValue - self.minValue) / self.accuracy; i++) {
         CGContextSetLineWidth(context, 1);
         startPoint = i * self.rulerSpacing + self.rulerMargin;
         CGFloat endPoint = 0;
-        if (i % 5 == 0) {
+        if (i % 10 == 0) {
             endPoint = self.longLineDistance;
-            
+            NSInteger temp = (int)(i * self.accuracy);
             UILabel *label = [[UILabel alloc] init];
-            label.text = [NSString stringWithFormat:@"%@", @(self.minValue + i)];
+            label.text = [NSString stringWithFormat:@"%@", @(self.minValue + temp)];
             label.font = self.rulerFont;
             label.textColor = self.rulerLineColor;
             [label sizeToFit];
@@ -52,7 +53,11 @@
             label.frame = rect;
             [self addSubview:label];
             
-        } else {
+        }
+        else if (i % 5 == 0) {
+            endPoint = (self.longLineDistance + self.shortLineDistance) / 2.0;
+        }
+        else {
             endPoint = self.shortLineDistance;
         }
         CGContextMoveToPoint(context, startPoint, 0);
@@ -129,6 +134,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self setupDefault];
 }
 
@@ -139,11 +145,7 @@
     frame.size.height = CGRectGetHeight(self.bounds);
     self.valueView.frame = frame;
     
-    if (self.showMarkView == YES) {
-        self.scrollView.contentInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds) / 2 - self.rulerMargin, 0, CGRectGetWidth(self.bounds) / 2 - self.rulerMargin);
-    } else {
-        self.scrollView.contentInset = UIEdgeInsetsZero;
-    }
+    [self updateScrollViewContentInset];
 }
 
 - (void)setupDefault {
@@ -157,6 +159,7 @@
     self.minValue = 0;
     self.maxValue = 100;
     self.limitToInteger = YES;
+    self.accuracy = 1;
     
     self.showMarkView = YES;
     self.markViewColor = OJAColorFromHex(0xea5151);
@@ -169,9 +172,19 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    
+    [self updateScrollViewContentInset];
+    
     [self reloadData];
 }
 
+- (void)updateScrollViewContentInset {
+    if (self.showMarkView == YES) {
+        self.scrollView.contentInset = UIEdgeInsetsMake(0, floor(CGRectGetWidth(self.bounds) / 2) - self.rulerMargin, 0, floor(CGRectGetWidth(self.bounds) / 2) - self.rulerMargin);//这里如果出现小数貌似会不准，所以特殊处理一下
+    } else {
+        self.scrollView.contentInset = UIEdgeInsetsZero;
+    }
+}
 
 #pragma mark - UIScrollViewDelegate
 
@@ -180,7 +193,7 @@
         return;
     }
     CGFloat offsetX = scrollView.contentOffset.x;
-    self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerSpacing + self.minValue;
+    self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerSpacing * self.accuracy + self.minValue;
     if (self.valueChangeCallback) {
         self.valueChangeCallback(self.currentValue);
     }
@@ -230,7 +243,7 @@
     [self.markView removeFromSuperview];
     self.backgroundColor = self.rulerBackgroundColor;
     
-    CGFloat totalWidth = self.rulerSpacing * (self.maxValue - self.minValue) + self.rulerMargin * 2;
+    CGFloat totalWidth = self.rulerSpacing * (self.maxValue - self.minValue) / self.accuracy + self.rulerMargin * 2;
     CGFloat height = 0;//CGRectGetHeight(self.bounds);
     self.scrollView.contentSize = CGSizeMake(totalWidth, 0);
     
@@ -246,6 +259,7 @@
     valueView.shortLineDistance = self.shortLineDistance;
     valueView.minValue = self.minValue;
     valueView.maxValue = self.maxValue;
+    valueView.accuracy = self.accuracy;
     [self.scrollView addSubview:valueView];
     
     self.valueView = valueView;
@@ -271,7 +285,7 @@
         return;
     }
     self.currentValue = value;
-    CGFloat offsetX = (self.currentValue - self.minValue) * self.rulerSpacing - self.scrollView.contentInset.left;
+    CGFloat offsetX = (self.currentValue - self.minValue) * self.rulerSpacing / self.accuracy - self.scrollView.contentInset.left;
     [self.scrollView setContentOffset:CGPointMake(offsetX, 0)];
 }
 
