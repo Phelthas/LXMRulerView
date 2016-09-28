@@ -31,12 +31,43 @@
 
 @implementation LXMRulerValueView
 
-- (void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [self.rulerLineColor set];
+
+- (instancetype)initWithFrame:(CGRect)frame
+               rulerLineColor:(UIColor *)rulerLineColor
+                    rulerFont:(UIFont *)rulerFont
+                  rulerMargin:(CGFloat)rulerMargin
+                 rulerSpacing:(CGFloat)rulerSpacing
+             longLineDistance:(CGFloat)longLineDistance
+            shortLineDistance:(CGFloat)shortLineDistance
+                     minValue:(NSInteger)minValue
+                     maxValue:(NSInteger)maxValue
+                     accuracy:(CGFloat)accuracy {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.rulerLineColor = rulerLineColor;
+        self.rulerFont = rulerFont;
+        self.rulerMargin = rulerMargin;
+        self.rulerSpacing = rulerSpacing;
+        self.longLineDistance = longLineDistance;
+        self.shortLineDistance = shortLineDistance;
+        self.minValue = minValue;
+        self.maxValue = maxValue;
+        self.accuracy = accuracy;
+        [self setupUI];
+    }
+    return self;
+}
+
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setupUI];
+}
+
+- (void)setupUI {
     CGFloat startPoint = self.rulerMargin;
     for (int i = 0; i <= (self.maxValue - self.minValue) / self.accuracy; i++) {
-        CGContextSetLineWidth(context, 1);
+        CALayer *subLayer = [CALayer layer];
         startPoint = i * self.rulerSpacing + self.rulerMargin;
         CGFloat endPoint = 0;
         if (i % 10 == 0) {
@@ -60,13 +91,14 @@
         else {
             endPoint = self.shortLineDistance;
         }
-        CGContextMoveToPoint(context, startPoint, 0);
-        CGContextAddLineToPoint(context, startPoint, endPoint);
-        CGContextStrokePath(context);
+        subLayer.frame = CGRectMake(startPoint, 0, 1, endPoint);
+        subLayer.backgroundColor = self.rulerLineColor.CGColor;
+        [self.layer addSublayer:subLayer];
     }
-    CGContextMoveToPoint(context, self.rulerMargin, 0);
-    CGContextAddLineToPoint(context, startPoint, 0);
-    CGContextStrokePath(context);
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(self.rulerMargin, 0, startPoint, 1);
+    layer.backgroundColor = self.rulerLineColor.CGColor;
+    [self.layer addSublayer:layer];
 }
 
 @end
@@ -75,27 +107,45 @@
 @interface LXMRulerMarkView : UIView;
 
 @property (nonatomic, strong) UIColor *markColor;
+@property (nonatomic, strong) CAShapeLayer *markLayer;
+
 
 @end
 
 @implementation LXMRulerMarkView
 
-- (void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [self.markColor set];
-    CGContextSetLineWidth(context, 1);
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupUI];
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setupUI];
+}
+
+- (void)setupUI {
     CGFloat width = CGRectGetWidth(self.bounds);
     CGFloat height=  CGRectGetHeight(self.bounds);
-    CGPoint startPoint = CGPointMake(0, 0);
-    CGPoint centerPoint = CGPointMake(width / 2, height);
-    CGPoint endPoint = CGPointMake(width, 0);
-    
-    CGContextMoveToPoint(context, startPoint.x, startPoint.y);
-    CGContextAddLineToPoint(context, centerPoint.x, centerPoint.y);
-    CGContextAddLineToPoint(context, endPoint.x, endPoint.y);
-    CGContextClosePath(context);
-    CGContextSetFillColorWithColor(context, self.markColor.CGColor);
-    CGContextFillPath(context);
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.frame = self.bounds;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointZero];
+    [path addLineToPoint:CGPointMake(width, 0)];
+    [path addLineToPoint:CGPointMake(width / 2.0, height)];
+    [path closePath];
+    layer.path = path.CGPath;
+    self.markLayer = layer;
+    [self.layer addSublayer:layer];
+}
+
+- (void)setMarkColor:(UIColor *)markColor {
+    _markColor = markColor;
+    self.markLayer.fillColor = markColor.CGColor;
+    self.markLayer.borderColor = markColor.CGColor;
 }
 
 @end
@@ -248,18 +298,9 @@
     self.scrollView.contentSize = CGSizeMake(totalWidth, 0);
     
     self.scrollView.delegate = self;
-    LXMRulerValueView *valueView = [[LXMRulerValueView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, height)];
+    LXMRulerValueView *valueView = [[LXMRulerValueView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, height)rulerLineColor:self.rulerLineColor rulerFont:self.rulerFont rulerMargin:self.rulerMargin rulerSpacing:self.rulerSpacing longLineDistance:self.longLineDistance shortLineDistance:self.shortLineDistance minValue:self.minValue maxValue:self.maxValue accuracy:self.accuracy];
     valueView.contentMode = UIViewContentModeRedraw;//使ValueView的bounds变化时，重新调用drawRect方法
     valueView.backgroundColor = self.rulerBackgroundColor;
-    valueView.rulerLineColor = self.rulerLineColor;
-    valueView.rulerFont = self.rulerFont;
-    valueView.rulerMargin = self.rulerMargin;
-    valueView.rulerSpacing = self.rulerSpacing;
-    valueView.longLineDistance = self.longLineDistance;
-    valueView.shortLineDistance = self.shortLineDistance;
-    valueView.minValue = self.minValue;
-    valueView.maxValue = self.maxValue;
-    valueView.accuracy = self.accuracy;
     [self.scrollView addSubview:valueView];
     
     self.valueView = valueView;

@@ -28,7 +28,7 @@
     [oneRulerView setValueChangeCallback:^(CGFloat currentValue) {
         testLabel.text = [NSString stringWithFormat:@"ruler one :%.01f", currentValue];
     }];
-    oneRulerView.accuracy = 3;
+    oneRulerView.accuracy = 0.1;
     [oneRulerView reloadData];
     [self.view addSubview:oneRulerView];
     
