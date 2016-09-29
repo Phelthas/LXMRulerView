@@ -96,7 +96,7 @@
         [self.layer addSublayer:subLayer];
     }
     CALayer *layer = [CALayer layer];
-    layer.frame = CGRectMake(self.rulerMargin, 0, startPoint, 1);
+    layer.frame = CGRectMake(self.rulerMargin, 0, startPoint - self.rulerMargin, 1);
     layer.backgroundColor = self.rulerLineColor.CGColor;
     [self.layer addSublayer:layer];
 }
@@ -196,6 +196,7 @@
     self.valueView.frame = frame;
     
     [self updateScrollViewContentInset];
+    [self reloadData];
 }
 
 - (void)setupDefault {
@@ -223,9 +224,6 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
     
-    [self updateScrollViewContentInset];
-    
-    [self reloadData];
 }
 
 - (void)updateScrollViewContentInset {
@@ -299,7 +297,7 @@
     
     self.scrollView.delegate = self;
     LXMRulerValueView *valueView = [[LXMRulerValueView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, height)rulerLineColor:self.rulerLineColor rulerFont:self.rulerFont rulerMargin:self.rulerMargin rulerSpacing:self.rulerSpacing longLineDistance:self.longLineDistance shortLineDistance:self.shortLineDistance minValue:self.minValue maxValue:self.maxValue accuracy:self.accuracy];
-    valueView.contentMode = UIViewContentModeRedraw;//使ValueView的bounds变化时，重新调用drawRect方法
+//    valueView.contentMode = UIViewContentModeRedraw;//使ValueView的bounds变化时，重新调用drawRect方法
     valueView.backgroundColor = self.rulerBackgroundColor;
     [self.scrollView addSubview:valueView];
     
