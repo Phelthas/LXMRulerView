@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "LXMRulerView.h"
+#import "OJARulerView.h"
+#import "LXMRulerPickerView.h"
 
 @interface ViewController ()
 
@@ -59,6 +61,9 @@
     [threeRulerView reloadData];
     [self.view addSubview:threeRulerView];
     
+    
+    LXMRulerPickerView *fourRulerView = [[LXMRulerPickerView alloc] initWithFrame:CGRectMake(0, 400, CGRectGetWidth([UIScreen mainScreen].bounds), 60)];
+    [self.view addSubview:fourRulerView];
 }
 
 - (void)viewDidLayoutSubviews {
