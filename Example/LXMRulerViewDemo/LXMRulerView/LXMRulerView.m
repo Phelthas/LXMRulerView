@@ -131,6 +131,14 @@
 
 #pragma mark - UIScrollViewDelegate
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetX = scrollView.contentOffset.x;
+    self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue;
+    if (self.valueChangeCallback) {
+        self.valueChangeCallback(self.currentValue);
+    }
+}
+
 /**
  *  这个方法可以让scrollview刚好停留在整数位置！！！牛逼完了~~
  */
