@@ -66,6 +66,10 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self updateCurrentValue:self.currentValue animated:NO];
+    CGRect layerFrame = self.markLayer.frame;
+    layerFrame.origin.x = CGRectGetWidth(self.bounds) / 2 - CGRectGetWidth(layerFrame) / 2;
+    self.markLayer.frame = layerFrame;
 }
 
 
@@ -98,9 +102,7 @@
     
     self.currentValue = self.rulerStyle.minValue;
     [self.layer addSublayer:self.markLayer];
-    CGRect layerFrame = self.markLayer.frame;
-    layerFrame.origin.x = CGRectGetWidth(self.bounds) / 2 - CGRectGetWidth(layerFrame) / 2;
-    self.markLayer.frame = layerFrame;
+    
 }
 
 
@@ -152,13 +154,29 @@
 
 - (void)reloadData {
     [self.collectionView reloadData];
+    [self updateCurrentValue:self.currentValue animated:NO];
+    
+    if (!CGSizeEqualToSize(self.rulerStyle.markViewSize, self.markLayer.frame.size)) {
+        [self.markLayer removeFromSuperlayer];
+        self.markLayer = nil;
+        [self.layer addSublayer:self.markLayer];
+    }
+    self.markLayer.fillColor = self.rulerStyle.markViewColor.CGColor;
+    self.markLayer.borderColor = self.rulerStyle.markViewColor.CGColor;
+    
 }
 
 
-- (void)updateCurrentValue:(CGFloat)value {
+- (void)updateCurrentValue:(CGFloat)value animated:(BOOL)animated {
+    if (value > self.rulerStyle.maxValue) {
+        value = self.rulerStyle.maxValue;
+    }
+    if (value < self.rulerStyle.minValue) {
+        value = self.rulerStyle.minValue;
+    }
     self.currentValue = value;
     CGFloat offsetX = (self.currentValue - self.rulerStyle.minValue) * self.rulerStyle.rulerSpacing / self.rulerStyle.accuracy - self.collectionView.contentInset.left;
-    [self.collectionView setContentOffset:CGPointMake(offsetX, 0)];
+    [self.collectionView setContentOffset:CGPointMake(offsetX, 0) animated:animated];
 }
 
 @end
