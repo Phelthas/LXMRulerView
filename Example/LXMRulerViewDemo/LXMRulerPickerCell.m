@@ -105,7 +105,7 @@
             endPoint = self.rulerStyle.longLineDistance;
             self.leadingLabel.font = self.rulerStyle.rulerFont;
             self.leadingLabel.textColor = self.rulerStyle.rulerLineColor;
-            self.leadingLabel.text = [NSString stringWithFormat:@"%@", @(offsetValue + i * self.rulerStyle.accuracy)];
+            self.leadingLabel.text = [NSString stringWithFormat:@"%.0f", offsetValue + i * self.rulerStyle.accuracy];
             [self.leadingLabel sizeToFit];
         } else if (i == 5) {
             endPoint = (self.rulerStyle.longLineDistance + self.rulerStyle.shortLineDistance) / 2.0;
@@ -113,7 +113,7 @@
             endPoint = self.rulerStyle.longLineDistance;
             self.trailingLabel.font = self.rulerStyle.rulerFont;
             self.trailingLabel.textColor = self.rulerStyle.rulerLineColor;
-            self.trailingLabel.text = [NSString stringWithFormat:@"%@", @(offsetValue + i * self.rulerStyle.accuracy)];
+            self.trailingLabel.text = [NSString stringWithFormat:@"%.0f", offsetValue + i * self.rulerStyle.accuracy];
             [self.trailingLabel sizeToFit];
         } else {
             endPoint = self.rulerStyle.shortLineDistance;

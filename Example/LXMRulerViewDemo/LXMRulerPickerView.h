@@ -14,5 +14,11 @@
 
 @property (nonatomic, strong, nonnull) LXMRulerStyle *rulerStyle;
 
+@property (nonatomic, assign, readonly) CGFloat currentValue;//markView指示的值
+@property (nonatomic, copy, nullable) void(^valueChangeCallback)(CGFloat currentValue);//currentValue变化的回调
+
+
+- (void)reloadData;
+
 @end
 

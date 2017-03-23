@@ -13,7 +13,9 @@
 
 @interface LXMRulerPickerView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic, strong) CAShapeLayer *markLayer;
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, assign, readwrite) CGFloat currentValue;//markView指示的值
 
 @end
 
@@ -28,7 +30,22 @@
     return _rulerStyle;
 }
 
-
+- (CAShapeLayer *)markLayer {
+    if (!_markLayer) {
+        CGSize size = self.rulerStyle.markViewSize;
+        _markLayer = [CAShapeLayer layer];
+        _markLayer.frame = CGRectMake(0, 0, size.width, size.height);
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointZero];
+        [path addLineToPoint:CGPointMake(size.width, 0)];
+        [path addLineToPoint:CGPointMake(size.width / 2.0, size.height)];
+        [path closePath];
+        _markLayer.path = path.CGPath;
+        _markLayer.fillColor = self.rulerStyle.markViewColor.CGColor;
+        _markLayer.borderColor = self.rulerStyle.markViewColor.CGColor;
+    }
+    return _markLayer;
+}
 
 
 #pragma mark - Lifecycle
@@ -46,6 +63,11 @@
     [super awakeFromNib];
     [self setupUI];
 }
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
+
 
 #pragma mark - PrivateMethod
 
@@ -71,6 +93,14 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    
+    self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(CGRectGetWidth(self.bounds) / 2), 0, floor(CGRectGetWidth(self.bounds) / 2));//这里如果出现小数貌似会不准，所以特殊处理一下
+    
+    self.currentValue = self.rulerStyle.minValue;
+    [self.layer addSublayer:self.markLayer];
+    CGRect layerFrame = self.markLayer.frame;
+    layerFrame.origin.x = CGRectGetWidth(self.bounds) / 2 - CGRectGetWidth(layerFrame) / 2;
+    self.markLayer.frame = layerFrame;
 }
 
 
@@ -90,7 +120,45 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.rulerStyle.accuracy * 10 * self.rulerStyle.rulerSpacing, CGRectGetHeight(collectionView.bounds));
+    return CGSizeMake(self.rulerStyle.rulerSpacing * 10, CGRectGetHeight(collectionView.bounds));
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetX = scrollView.contentOffset.x;
+    self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue;
+    if (self.valueChangeCallback) {
+        self.valueChangeCallback(self.currentValue);
+    }
+}
+
+/**
+ *  这个方法可以让scrollview刚好停留在整数位置！！！牛逼完了~~
+ */
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.rulerStyle.limitToAccuracy == YES) {
+        CGPoint originalTargetContentOffset = CGPointMake(targetContentOffset->x, targetContentOffset->y);
+        CGFloat offsetX = originalTargetContentOffset.x;
+        CGFloat result = round((offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing) * self.rulerStyle.rulerSpacing;
+        
+        *targetContentOffset = CGPointMake(result - scrollView.contentInset.left, originalTargetContentOffset.y);
+        
+    }
+}
+
+
+#pragma mark - PublicMethod
+
+- (void)reloadData {
+    [self.collectionView reloadData];
+}
+
+
+- (void)updateCurrentValue:(CGFloat)value {
+    self.currentValue = value;
+    CGFloat offsetX = (self.currentValue - self.rulerStyle.minValue) * self.rulerStyle.rulerSpacing / self.rulerStyle.accuracy - self.collectionView.contentInset.left;
+    [self.collectionView setContentOffset:CGPointMake(offsetX, 0)];
 }
 
 @end

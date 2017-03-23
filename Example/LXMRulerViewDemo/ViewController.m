@@ -63,6 +63,14 @@
     
     
     LXMRulerPickerView *fourRulerView = [[LXMRulerPickerView alloc] initWithFrame:CGRectMake(0, 400, CGRectGetWidth([UIScreen mainScreen].bounds), 60)];
+    fourRulerView.rulerStyle.minValue = 20;
+    fourRulerView.rulerStyle.maxValue = 80;
+    fourRulerView.rulerStyle.accuracy = 0.5;
+    fourRulerView.rulerStyle.rulerSpacing = 15;
+    fourRulerView.rulerStyle.rulerLineColor = [UIColor orangeColor];
+    [fourRulerView setValueChangeCallback:^(CGFloat currentValue) {
+        NSLog(@"it is %@", @(currentValue));
+    }];
     [self.view addSubview:fourRulerView];
 }
 

@@ -23,7 +23,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *dataArray;
 
-
 @end
 
 @implementation OJARulerView
@@ -81,6 +80,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    
+   
 }
 
 
