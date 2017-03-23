@@ -1,14 +1,14 @@
 //
-//  LXMRulerPickerCell.m
+//  LXMRulerCell.m
 //  LXMRulerViewDemo
 //
-//  Created by luxiaoming on 2017/3/22.
+//  Created by luxiaoming on 2017/3/23.
 //  Copyright © 2017年 luxiaoming. All rights reserved.
 //
 
-#import "LXMRulerPickerCell.h"
+#import "LXMRulerCell.h"
 
-@interface LXMRulerPickerCell ()
+@interface LXMRulerCell ()
 
 @property (nonatomic, strong) CALayer *horizonalLayer;
 @property (nonatomic, strong) NSArray<CALayer *> *verticalLayerArray;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation LXMRulerPickerCell
+@implementation LXMRulerCell
 
 
 #pragma mark - Property
@@ -92,6 +92,7 @@
 - (void)updateUIWithRulerStyle:(LXMRulerStyle *)rulerStyle atIndexPath:(NSIndexPath *)indexPath {
     self.rulerStyle = rulerStyle;
     
+    self.horizonalLayer.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), 1);
     self.horizonalLayer.backgroundColor = self.rulerStyle.rulerLineColor.CGColor;
     
     CGFloat startPoint = 0;
@@ -131,7 +132,15 @@
     
 }
 
+@end
 
+
+@implementation UICollectionReusableView (LXMTool)
+
+
++ (NSString *)lxm_reuseIdentifier {
+    return NSStringFromClass(self);
+}
 
 
 @end

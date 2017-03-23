@@ -26,41 +26,6 @@
     testLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:testLabel];
     
-    //尺子选择器样式
-    [self.oneRulerView setValueChangeCallback:^(CGFloat currentValue) {
-        testLabel.text = [NSString stringWithFormat:@"ruler one :%.01f", currentValue];
-    }];
-    self.oneRulerView.markViewSize = CGSizeMake(40, 30);
-
-    [self.oneRulerView reloadData];
-    [self.view addSubview:self.oneRulerView];
-    
-    [self.oneRulerView updateCurrentValue:30];
-    
-    
-    //普通尺子样式
-    self.twoRulerView.showMarkView = NO;
-    [self.twoRulerView reloadData];
-    [self.view addSubview:self.twoRulerView];
-    
-    
-    
-    //自定义
-    self.threeRulerView.showMarkView = NO;
-    self.threeRulerView.rulerBackgroundColor = [UIColor purpleColor];
-    self.threeRulerView.rulerLineColor = [UIColor orangeColor];
-    self.threeRulerView.rulerFont = [UIFont boldSystemFontOfSize:14];
-    self.threeRulerView.rulerMargin = 40;
-    self.threeRulerView.rulerSpacing = 20;
-    self.threeRulerView.maxValue = 20;
-    self.threeRulerView.minValue = 10;
-    self.threeRulerView.longLineDistance = 10;
-    self.threeRulerView.shortLineDistance = 5;
-    
-    [self.threeRulerView reloadData];
-    [self.view addSubview:self.threeRulerView];
-
-    
 }
 
 - (void)viewDidLayoutSubviews {

@@ -15,10 +15,8 @@
 		43887B951D366CD00041ABF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43887B941D366CD00041ABF8 /* Assets.xcassets */; };
 		43887B981D366CD00041ABF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43887B961D366CD00041ABF8 /* LaunchScreen.storyboard */; };
 		43887BA21D366E380041ABF8 /* LXMRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43887BA11D366E380041ABF8 /* LXMRulerView.m */; };
-		43C7C5BF1E810EA300D5B458 /* UICollectionReusableView+LXMTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C7C5BE1E810EA300D5B458 /* UICollectionReusableView+LXMTool.m */; };
-		43C7C5C21E81214D00D5B458 /* LXMRulerStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C7C5C11E81214D00D5B458 /* LXMRulerStyle.m */; };
-		43E3D8D51E82A8D300463E2E /* LXMRulerPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43E3D8D41E82A8D300463E2E /* LXMRulerPickerView.m */; };
-		43E3D8D81E82B17300463E2E /* LXMRulerPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43E3D8D71E82B17300463E2E /* LXMRulerPickerCell.m */; };
+		43A775151E83A15200D61721 /* LXMRulerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A7750C1E83A15200D61721 /* LXMRulerCell.m */; };
+		43A775171E83A15200D61721 /* LXMRulerStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A775101E83A15200D61721 /* LXMRulerStyle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,14 +34,10 @@
 		43887B991D366CD00041ABF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43887BA01D366E380041ABF8 /* LXMRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXMRulerView.h; sourceTree = "<group>"; };
 		43887BA11D366E380041ABF8 /* LXMRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXMRulerView.m; sourceTree = "<group>"; };
-		43C7C5BD1E810EA300D5B458 /* UICollectionReusableView+LXMTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionReusableView+LXMTool.h"; sourceTree = "<group>"; };
-		43C7C5BE1E810EA300D5B458 /* UICollectionReusableView+LXMTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionReusableView+LXMTool.m"; sourceTree = "<group>"; };
-		43C7C5C01E81214D00D5B458 /* LXMRulerStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXMRulerStyle.h; sourceTree = "<group>"; };
-		43C7C5C11E81214D00D5B458 /* LXMRulerStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXMRulerStyle.m; sourceTree = "<group>"; };
-		43E3D8D31E82A8D300463E2E /* LXMRulerPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXMRulerPickerView.h; sourceTree = "<group>"; };
-		43E3D8D41E82A8D300463E2E /* LXMRulerPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXMRulerPickerView.m; sourceTree = "<group>"; };
-		43E3D8D61E82B17300463E2E /* LXMRulerPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXMRulerPickerCell.h; sourceTree = "<group>"; };
-		43E3D8D71E82B17300463E2E /* LXMRulerPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXMRulerPickerCell.m; sourceTree = "<group>"; };
+		43A7750B1E83A15200D61721 /* LXMRulerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXMRulerCell.h; sourceTree = "<group>"; };
+		43A7750C1E83A15200D61721 /* LXMRulerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXMRulerCell.m; sourceTree = "<group>"; };
+		43A7750F1E83A15200D61721 /* LXMRulerStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXMRulerStyle.h; sourceTree = "<group>"; };
+		43A775101E83A15200D61721 /* LXMRulerStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXMRulerStyle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,14 +77,6 @@
 				43887B8F1D366CD00041ABF8 /* ViewController.m */,
 				43429F961D410B7900CE78F5 /* TextXibViewController.h */,
 				43429F971D410B7900CE78F5 /* TextXibViewController.m */,
-				43E3D8D31E82A8D300463E2E /* LXMRulerPickerView.h */,
-				43E3D8D41E82A8D300463E2E /* LXMRulerPickerView.m */,
-				43E3D8D61E82B17300463E2E /* LXMRulerPickerCell.h */,
-				43E3D8D71E82B17300463E2E /* LXMRulerPickerCell.m */,
-				43C7C5C01E81214D00D5B458 /* LXMRulerStyle.h */,
-				43C7C5C11E81214D00D5B458 /* LXMRulerStyle.m */,
-				43C7C5BD1E810EA300D5B458 /* UICollectionReusableView+LXMTool.h */,
-				43C7C5BE1E810EA300D5B458 /* UICollectionReusableView+LXMTool.m */,
 				43887B911D366CD00041ABF8 /* Main.storyboard */,
 				43887B941D366CD00041ABF8 /* Assets.xcassets */,
 				43887B961D366CD00041ABF8 /* LaunchScreen.storyboard */,
@@ -113,6 +99,10 @@
 			children = (
 				43887BA01D366E380041ABF8 /* LXMRulerView.h */,
 				43887BA11D366E380041ABF8 /* LXMRulerView.m */,
+				43A7750B1E83A15200D61721 /* LXMRulerCell.h */,
+				43A7750C1E83A15200D61721 /* LXMRulerCell.m */,
+				43A7750F1E83A15200D61721 /* LXMRulerStyle.h */,
+				43A775101E83A15200D61721 /* LXMRulerStyle.m */,
 			);
 			path = LXMRulerView;
 			sourceTree = "<group>";
@@ -190,13 +180,11 @@
 			files = (
 				43887B901D366CD00041ABF8 /* ViewController.m in Sources */,
 				43887B8D1D366CD00041ABF8 /* AppDelegate.m in Sources */,
-				43E3D8D51E82A8D300463E2E /* LXMRulerPickerView.m in Sources */,
-				43E3D8D81E82B17300463E2E /* LXMRulerPickerCell.m in Sources */,
+				43A775151E83A15200D61721 /* LXMRulerCell.m in Sources */,
 				43429F981D410B7900CE78F5 /* TextXibViewController.m in Sources */,
 				43887B8A1D366CD00041ABF8 /* main.m in Sources */,
-				43C7C5BF1E810EA300D5B458 /* UICollectionReusableView+LXMTool.m in Sources */,
+				43A775171E83A15200D61721 /* LXMRulerStyle.m in Sources */,
 				43887BA21D366E380041ABF8 /* LXMRulerView.m in Sources */,
-				43C7C5C21E81214D00D5B458 /* LXMRulerStyle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
