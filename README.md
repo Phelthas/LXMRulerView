@@ -13,15 +13,16 @@ it will look like:
 ## How to use   
 1, cocoaPods    
 在你的podfile中添加        
-`pod 'LXMRulerView', '~> 1.3.1'`    
+`pod 'LXMRulerView', '~> 2.0.0'`    
 and run `pod update` or `pod install`    
 2, manual    
-add `LXMRulerView.h`and `LXMRulerView.m` to your project
+drag folder `LXMRulerView` to your project
 
 
 ## Update
-1.3.1    修复从xib初始化的时候初始值不对的问题    
-1.3.0    改用CALayer的方式实现，不再用drawRect的方式；drawRect的方式太占内存了       
+2.0.0    使用collectionView重构整个View，解决尺子太长时绘制太慢的问题      
+1.3.1    修复从xib初始化的时候初始值不对的问题        
+1.3.0    改用CALayer的方式实现，不再用drawRect的方式；drawRect的方式太占内存了    
 1.2.0    加入accuracy属性，支持尺子的一格代表不同的值    
 1.1.0    支持autolayout，支持从xib初始化    
 
