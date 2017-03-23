@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "LXMRulerView.h"
-#import "LXMRulerPickerView.h"
 
 @interface ViewController ()
 
