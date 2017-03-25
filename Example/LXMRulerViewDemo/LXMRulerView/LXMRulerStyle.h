@@ -24,7 +24,7 @@
 @property (nonatomic, assign) CGFloat rulerMargin;//LXMRulerTypeRuler专用属性，第一条刻度距离边缘的距离，default is 15
 
 
-
+@property (nonatomic, assign) NSInteger defaultValue;//LXMRulerTypePicker专用属性，尺子出现时默认指示的值，default is minValue;如果之后手动修改rulerView的frame，会导致尺子重新指示到defaultValue，所以修改frame后最好再调用一次reloadData；
 @property (nonatomic, strong, nullable) UIColor *markViewColor;//LXMRulerTypePicker专用属性，指示标记的颜色，default is 0xea5151
 @property (nonatomic, assign) CGSize markViewSize;//LXMRulerTypePicker专用属性，指示标记的大小，default is 16*8
 

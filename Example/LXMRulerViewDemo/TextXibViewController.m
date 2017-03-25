@@ -30,6 +30,7 @@
     self.oneRulerView.rulerStyle.minValue = 20;
     self.oneRulerView.rulerStyle.maxValue = 80;
     self.oneRulerView.rulerStyle.accuracy = 0.5;
+    self.oneRulerView.rulerStyle.defaultValue = 32;
     self.oneRulerView.rulerStyle.rulerSpacing = 15;
     self.oneRulerView.rulerStyle.rulerLineColor = [UIColor orangeColor];
     [self.oneRulerView setValueChangeCallback:^(CGFloat currentValue) {

@@ -29,6 +29,7 @@
     LXMRulerView *oneRulerView = [[LXMRulerView alloc] initWithFrame:CGRectMake(0, 100, CGRectGetWidth([UIScreen mainScreen].bounds), 60)];
     oneRulerView.rulerStyle.minValue = 20;
     oneRulerView.rulerStyle.maxValue = 80;
+    oneRulerView.rulerStyle.defaultValue = 40;
     oneRulerView.rulerStyle.accuracy = 0.5;
     oneRulerView.rulerStyle.rulerSpacing = 15;
     oneRulerView.rulerStyle.rulerLineColor = [UIColor orangeColor];
@@ -38,6 +39,7 @@
     }];
     [self.view addSubview:oneRulerView];
     self.oneRulerView = oneRulerView;
+    
     
     UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(oneRulerView.frame), 100, 44)];
     addButton.backgroundColor = [UIColor orangeColor];
@@ -88,6 +90,10 @@
 - (void)handleChangeButtonTapped:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
+//        CGRect frame = self.oneRulerView.frame;
+//        frame.size.width = 200;
+//        self.oneRulerView.frame = frame;
+        
         self.oneRulerView.rulerStyle.minValue = 30;
         self.oneRulerView.rulerStyle.maxValue = 120;
         self.oneRulerView.rulerStyle.accuracy = 1;
@@ -95,6 +101,10 @@
         self.oneRulerView.rulerStyle.markViewColor = [UIColor redColor];
         self.oneRulerView.rulerStyle.rulerLineColor = [UIColor orangeColor];
     } else {
+//        CGRect frame = self.oneRulerView.frame;
+//        frame.size.width = CGRectGetWidth(self.view.bounds);
+//        self.oneRulerView.frame = frame;
+        
         self.oneRulerView.rulerStyle.minValue = 20;
         self.oneRulerView.rulerStyle.maxValue = 80;
         self.oneRulerView.rulerStyle.accuracy = 0.5;

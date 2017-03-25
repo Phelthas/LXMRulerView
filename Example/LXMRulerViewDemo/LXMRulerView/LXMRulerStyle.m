@@ -42,4 +42,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     return self;
 }
 
+- (NSInteger)defaultValue {
+    if (_defaultValue == 0) {
+        _defaultValue = self.minValue;
+    }
+    return _defaultValue;
+}
+
 @end

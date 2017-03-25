@@ -46,6 +46,14 @@
     return _markLayer;
 }
 
+- (CGFloat)currentValue {
+    if (self.rulerType == LXMRulerTypePicker) {
+        return _currentValue;
+    } else {
+        return 0;
+    }
+}
+
 #pragma mark - Lifecycle
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -65,9 +73,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (self.rulerType == LXMRulerTypePicker) {
-        self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(CGRectGetWidth(self.bounds) / 2), 0, floor(CGRectGetWidth(self.bounds) / 2));//这里如果出现小数貌似会不准，所以特殊处理一下
+        self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(CGRectGetWidth(self.bounds) / 2), 0, floor(CGRectGetWidth(self.bounds) / 2));//这里如果出现小数貌似会不准，所以特殊处理一下;
         
-        [self updateCurrentValue:self.currentValue animated:NO];
+        //设置contentInset会导致scrollViewDidScroll方法调用，导致self.currentValue变化。。。所以这里要重新设置默认显示的值
+        [self updateCurrentValue:self.rulerStyle.defaultValue animated:NO];
         CGRect layerFrame = self.markLayer.frame;
         layerFrame.origin.x = CGRectGetWidth(self.bounds) / 2 - CGRectGetWidth(layerFrame) / 2;
         self.markLayer.frame = layerFrame;
@@ -132,6 +141,9 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.rulerType != LXMRulerTypePicker) {
+        return;
+    }
     CGFloat offsetX = scrollView.contentOffset.x;
     self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue;
     if (self.valueChangeCallback) {
@@ -177,6 +189,9 @@
 }
 
 - (void)updateCurrentValue:(CGFloat)value animated:(BOOL)animated {
+    if (self.rulerType != LXMRulerTypePicker) {
+        return;
+    }
     if (value > self.rulerStyle.maxValue) {
         value = self.rulerStyle.maxValue;
     }
