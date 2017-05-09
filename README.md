@@ -13,13 +13,14 @@ it will look like:
 ## How to use   
 1, cocoaPods    
 在你的podfile中添加        
-`pod 'LXMRulerView', '~> 2.1.0'`    
+`pod 'LXMRulerView', '~> 2.1.1'`    
 and run `pod update` or `pod install`    
 2, manual    
 drag folder `LXMRulerView` to your project
 
 
 ## Update
+2.1.1    加入尺子宽度为奇数时可能会出现显示不准确的warning提示    
 2.1.0    加入defaultValue属性，让尺子出现时指示设定的值    
 2.0.0    使用collectionView重构整个View，解决尺子太长时绘制太慢的问题    
 1.3.1    修复从xib初始化的时候初始值不对的问题        
