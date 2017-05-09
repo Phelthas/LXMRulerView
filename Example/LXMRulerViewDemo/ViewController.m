@@ -26,11 +26,11 @@
     testLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:testLabel];
     
-    LXMRulerView *oneRulerView = [[LXMRulerView alloc] initWithFrame:CGRectMake(0, 100, CGRectGetWidth([UIScreen mainScreen].bounds), 60)];
-    oneRulerView.rulerStyle.minValue = 20;
-    oneRulerView.rulerStyle.maxValue = 80;
+    LXMRulerView *oneRulerView = [[LXMRulerView alloc] initWithFrame:CGRectMake(0, 100, 300, 60)];
+    oneRulerView.rulerStyle.minValue = 100;
+    oneRulerView.rulerStyle.maxValue = 800;
     oneRulerView.rulerStyle.defaultValue = 40;
-    oneRulerView.rulerStyle.accuracy = 0.5;
+    oneRulerView.rulerStyle.accuracy = 10;
     oneRulerView.rulerStyle.rulerSpacing = 15;
     oneRulerView.rulerStyle.rulerLineColor = [UIColor orangeColor];
     [oneRulerView setValueChangeCallback:^(CGFloat currentValue) {

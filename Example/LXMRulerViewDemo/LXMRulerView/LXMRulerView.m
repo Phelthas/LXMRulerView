@@ -72,8 +72,15 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    NSInteger remainder = ((NSInteger)CGRectGetWidth(self.bounds)) % 2;
+    if (remainder != 0 || CGRectGetWidth(self.bounds) != ceil(CGRectGetWidth(self.bounds))) {
+        NSLog(@"WARNING!!!! 尺子的宽度必须是偶数，否则可能会出现显示不准的问题");
+    }
+    
     if (self.rulerType == LXMRulerTypePicker) {
-        self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(CGRectGetWidth(self.bounds) / 2), 0, floor(CGRectGetWidth(self.bounds) / 2));//这里如果出现小数貌似会不准，所以特殊处理一下;
+        self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(CGRectGetWidth(self.bounds) / 2), 0, ceil(CGRectGetWidth(self.bounds) / 2));//这里如果出现小数貌似会不准，所以特殊处理一下;注意这里一个是floor函数，一个是ceil函数，这样才能保证在CGRectGetWidth(self.bounds)是奇数的时候也是对的
+
         
         //设置contentInset会导致scrollViewDidScroll方法调用，导致self.currentValue变化。。。所以这里要重新设置默认显示的值
         [self updateCurrentValue:self.rulerStyle.defaultValue animated:NO];
@@ -81,7 +88,7 @@
         layerFrame.origin.x = CGRectGetWidth(self.bounds) / 2 - CGRectGetWidth(layerFrame) / 2;
         self.markLayer.frame = layerFrame;
     } else {
-        self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(self.rulerStyle.rulerMargin), 0, floor(self.rulerStyle.rulerMargin));//这里如果出现小数貌似会不准，所以特殊处理一下
+        self.collectionView.contentInset = UIEdgeInsetsMake(0, floor(self.rulerStyle.rulerMargin), 0, ceil(self.rulerStyle.rulerMargin));//这里如果出现小数貌似会不准，所以特殊处理一下;注意这里一个是floor函数，一个是ceil函数，这样才能保证在CGRectGetWidth(self.bounds)是奇数的时候也是对的
     
     }
     
@@ -146,6 +153,12 @@
     }
     CGFloat offsetX = scrollView.contentOffset.x;
     self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue;
+//    if (self.currentValue > self.rulerStyle.maxValue) {
+//        self.currentValue = self.rulerStyle.maxValue;
+//    }
+//    if (self.currentValue < self.rulerStyle.minValue) {
+//        self.currentValue = self.rulerStyle.minValue;
+//    }
     if (self.valueChangeCallback) {
         self.valueChangeCallback(self.currentValue);
     }
