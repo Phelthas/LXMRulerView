@@ -152,7 +152,11 @@
         return;
     }
     CGFloat offsetX = scrollView.contentOffset.x;
-    self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue;
+    if ([self isArabic]) {
+        self.currentValue = (self.rulerStyle.maxValue) - ((offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue);
+    }else{
+        self.currentValue = (offsetX + scrollView.contentInset.left) / self.rulerStyle.rulerSpacing * self.rulerStyle.accuracy + self.rulerStyle.minValue;
+    }
 //    if (self.currentValue > self.rulerStyle.maxValue) {
 //        self.currentValue = self.rulerStyle.maxValue;
 //    }
@@ -212,10 +216,19 @@
         value = self.rulerStyle.minValue;
     }
     self.currentValue = value;
-    CGFloat offsetX = (self.currentValue - self.rulerStyle.minValue) * self.rulerStyle.rulerSpacing / self.rulerStyle.accuracy - self.collectionView.contentInset.left;
+    CGFloat offsetX;
+    
+    if([self isArabic]) {
+        offsetX = (self.rulerStyle.maxValue - self.currentValue) * self.rulerStyle.rulerSpacing / self.rulerStyle.accuracy - self.collectionView.contentInset.right;
+    }else{
+        offsetX = (self.currentValue - self.rulerStyle.minValue) * self.rulerStyle.rulerSpacing / self.rulerStyle.accuracy - self.collectionView.contentInset.left;
+    }
     [self.collectionView setContentOffset:CGPointMake(offsetX, 0) animated:animated];
 }
 
+- (BOOL) isArabic{
+    return [[NSBundle.mainBundle.preferredLocalizations objectAtIndex:0] isEqual: @"ar"];
+}
 
 @end
 

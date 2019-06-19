@@ -47,14 +47,26 @@
     [super layoutSubviews];
     
     CGRect leadingRect = self.leadingLabel.frame;
-    leadingRect.origin.x = -(leadingRect.size.width / 2);
+    if ([self isArabic]) {
+        leadingRect.origin.x = CGRectGetWidth(self.bounds) - (leadingRect.size.width / 2) - 2;
+    }else{
+        leadingRect.origin.x = -(leadingRect.size.width / 2) + 2;
+    }
     leadingRect.origin.y = self.rulerStyle.longLineDistance;
     self.leadingLabel.frame = leadingRect;
     
     CGRect trailingRect = self.trailingLabel.frame;
-    trailingRect.origin.x = CGRectGetWidth(self.bounds) - (trailingRect.size.width / 2);
+    if ([self isArabic]) {
+        trailingRect.origin.x = -(trailingRect.size.width / 2) + 2;
+    }else{
+        trailingRect.origin.x = CGRectGetWidth(self.bounds) - (trailingRect.size.width / 2) - 2;
+    }
     trailingRect.origin.y = self.rulerStyle.longLineDistance;
     self.trailingLabel.frame = trailingRect;
+}
+
+- (BOOL) isArabic{
+    return [[NSBundle.mainBundle.preferredLocalizations objectAtIndex:0]  isEqual: @"ar"];
 }
 
 
