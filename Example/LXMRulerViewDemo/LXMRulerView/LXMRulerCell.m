@@ -60,7 +60,8 @@
         trailingRect.origin.x = -(trailingRect.size.width / 2) + 2;
     }else{
         trailingRect.origin.x = CGRectGetWidth(self.bounds) - (trailingRect.size.width / 2) - 2;
-    }    trailingRect.origin.y = self.rulerStyle.longLineDistance;
+    }
+    trailingRect.origin.y = self.rulerStyle.longLineDistance;
     self.trailingLabel.frame = trailingRect;
 }
 
